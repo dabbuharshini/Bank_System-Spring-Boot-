@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyBank Dashboard</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI, sans-serif;
+}
+
+body{
+background:#eef3f7;
+}
+
+/* Layout */
+
+.container{
+display:flex;
+height:100vh;
+}
+
+/* Sidebar */
+
+.sidebar{
+width:230px;
+background:#0f4c5c;
+color:white;
+padding-top:30px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.sidebar h2{
+text-align:center;
+margin-bottom:30px;
+letter-spacing:1px;
+}
+
+.sidebar ul{
+list-style:none;
+}
+
+.sidebar li{
+padding:15px 25px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.sidebar li:hover{
+background:#1b7a85;
+padding-left:35px;
+}
+
+.sidebar li.active{
+background:#1b7a85;
+padding-left:35px;
+}
+
+/* Main */
+
+.main{
+flex:1;
+padding:40px;
+}
+
+.main h1{
+margin-bottom:20px;
+color:#0f4c5c;
+}
+
+/* Cards */
+
+.card{
+background:white;
+padding:30px;
+border-radius:10px;
+width:450px;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+transition:all 0.3s ease;
+animation:fadeIn 0.3s ease;
+}
+
+/* Card Hover */
+
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 15px 30px rgba(0,0,0,0.15);
+}
+
+/* Inputs */
+
+input{
+width:100%;
+padding:12px;
+margin-top:6px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:8px;
+font-size:14px;
+}
+
+input:focus{
+outline:none;
+border-color:#1b7a85;
+}
+
+/* Buttons */
+
+button{
+width:100%;
+padding:12px;
+background:#1b7a85;
+border:none;
+color:white;
+border-radius:8px;
+cursor:pointer;
+font-size:15px;
+transition:0.3s;
+}
+
+button:hover{
+background:#0f4c5c;
+transform:scale(1.02);
+}
+
+/* Sections */
+
+.section{
+display:none;
+}
+
+/* Result Box */
+
+#resultBox{
+margin-bottom:20px;
+padding:15px;
+display:none;
+border-radius:8px;
+font-weight:500;
+width:450px;
+}
+
+/* Animation */
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+table tr:nth-child(even){
+background:#f5f7fa;
+}
+
+table tr:hover{
+background:#e6f3f5;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+<div>
+
+<h2>MyBank</h2>
+
+<ul>
+
+<li onclick="showSection(event,'create')" class="active">
+Create Account
+</li>
+
+<li onclick="showSection(event,'deposit')">
+Deposit
+</li>
+
+<li onclick="showSection(event,'withdraw')">
+Withdraw
+</li>
+
+<li onclick="showSection(event,'balance')">
+Check Balance
+</li>
+
+<li onclick="showSection(event,'transactions')">
+Transactions
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+<!-- Main -->
+
+<div class="main">
+
+<h1>Bank Operations</h1>
+
+<div id="resultBox"></div>
+
+<!-- Create -->
+
+<div id="create" class="card section" style="display:block">
+
+<h3>Create Account</h3>
+
+<form onsubmit="handleForm(event,this)">
+<input type="hidden" name="action" value="create">
+
+<label>Account Holder Name</label>
+<input type="text" name="name" required>
+
+<label>Aadhaar Number</label>
+<input type="text" name="aadhaar" maxlength="12" pattern="[0-9]{12}" required>
+
+<label>Phone</label>
+<input type="tel" id="phone" name="phone" maxlength="10" oninput="validatePhone()" required>
+<div id="phoneError" style="color:red; font-size:12px; height:10px;"></div>
+
+<label>Address</label>
+<input type="text" name="address" required>
+
+<button>Create Account</button>
+
+</form>
+
+</div>
+
+<!-- Deposit -->
+
+<div id="deposit" class="card section">
+
+<h3>Deposit Money</h3>
+
+<form onsubmit="handleForm(event,this)">
+<input type="hidden" name="action" value="deposit">
+
+<label>Account ID</label>
+<input type="text" name="id" required>
+
+<label>Amount</label>
+<input type="number" name="amount" required>
+
+<button>Deposit</button>
+
+</form>
+
+</div>
+
+<!-- Withdraw -->
+
+<div id="withdraw" class="card section">
+
+<h3>Withdraw Money</h3>
+
+<form onsubmit="handleForm(event,this)">
+<input type="hidden" name="action" value="withdraw">
+
+<label>Account ID</label>
+<input type="text" name="id" required>
+
+<label>Amount</label>
+<input type="number" name="amount" required>
+
+<button>Withdraw</button>
+
+</form>
+
+</div>
+
+<!-- Balance -->
+
+<div id="balance" class="card section">
+
+<h3>Check Balance</h3>
+
+<form onsubmit="handleForm(event,this)">
+<input type="hidden" name="action" value="balance">
+
+<label>Account ID</label>
+<input type="text" name="id" required>
+
+<button>Check Balance</button>
+
+</form>
+
+</div>
+
+<!-- Transactions -->
+
+<div id="transactions" class="card section">
+
+<h3>Transaction History</h3>
+
+<form onsubmit="handleForm(event,this)">
+<input type="hidden" name="action" value="transactions">
+
+<label>Account ID</label>
+<input type="text" name="id" required>
+
+<button>View Transactions</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function validatePhone(){
+
+    let phone = document.getElementById("phone").value;
+    let error = document.getElementById("phoneError");
+
+    if(phone.length > 0 && phone.length < 10){
+        error.innerHTML = "Phone number must contain exactly 10 digits";
+    }
+    else{
+        error.innerHTML = "";
+    }
+}
+
+function showSection(event,id){
+
+let sections=document.querySelectorAll(".section");
+
+sections.forEach(sec=>{
+sec.style.display="none";
+});
+
+document.getElementById(id).style.display="block";
+
+/* highlight menu */
+
+let menu=document.querySelectorAll(".sidebar li");
+
+menu.forEach(item=>item.classList.remove("active"));
+
+event.target.classList.add("active");
+
+/* clear inputs */
+
+let activeSection=document.getElementById(id);
+
+let inputs=activeSection.querySelectorAll("input");
+
+inputs.forEach(input=>{
+if(input.type!=="hidden"){
+input.value="";
+}
+});
+
+/* hide result */
+
+let resultBox=document.getElementById("resultBox");
+
+resultBox.style.display="none";
+resultBox.innerHTML="";
+
+}
+
+
+
+function handleForm(event,form){
+
+event.preventDefault();
+
+/* collect form data */
+
+let formData=new FormData(form);
+
+let action=formData.get("action");
+
+let id=formData.get("id");
+
+let name=formData.get("name");
+
+let amount=formData.get("amount");
+
+/* build correct API url */
+
+let url="";
+
+if(action==="create"){
+
+let aadhaar=formData.get("aadhaar");
+let phone=formData.get("phone");
+let address=formData.get("address");
+
+url="/bank/create?name="+name+
+"&aadhaar="+aadhaar+
+"&phone="+phone+
+"&address="+address;
+
+}
+
+else if(action==="deposit"){
+
+url="/bank/deposit?id="+encodeURIComponent(id)+"&amount="+encodeURIComponent(amount);
+
+}
+
+else if(action==="withdraw"){
+
+url="/bank/withdraw?id="+encodeURIComponent(id)+"&amount="+encodeURIComponent(amount);
+
+}
+
+else if(action==="balance"){
+
+url="/bank/balance?id="+encodeURIComponent(id);
+
+}
+
+else if(action==="transactions"){
+
+url="/bank/transactions?id="+encodeURIComponent(id);
+
+}
+
+
+/* call backend */
+
+fetch(url)
+.then(response=>{
+
+if(!response.ok){
+throw new Error("Server error");
+}
+
+if(action==="transactions"){
+return response.json();
+}
+
+return response.text();
+
+})
+.then(data=>{
+
+let resultBox=document.getElementById("resultBox");
+
+resultBox.style.display="block";
+
+
+if(action==="transactions"){
+
+    if(data.length===0){
+        resultBox.innerHTML="No transactions found";
+        resultBox.style.display="block";
+        return;
+    }
+
+    let html = `
+    <table style="width:100%; border-collapse:collapse; margin-top:10px;">
+    <thead>
+    <tr style="background:#0f4c5c; color:white;">
+    <th style="padding:8px;border:1px solid #ddd;">Time</th>
+    <th style="padding:8px;border:1px solid #ddd;">Transaction</th>
+    <th style="padding:8px;border:1px solid #ddd;">Balance Before</th>
+    <th style="padding:8px;border:1px solid #ddd;">Balance After</th>
+    </tr>
+    </thead>
+    <tbody>
+    `;
+
+    data.forEach(t => {
+
+        let time = t.timestamp 
+            ? new Date(t.timestamp).toLocaleString()
+            : "N/A";
+
+        html += `
+        <tr>
+        <td style="padding:8px;border:1px solid #ddd;">${time}</td>
+        <td style="padding:8px;border:1px solid #ddd;">${t.description}</td>
+        <td style="padding:8px;border:1px solid #ddd;">₹${t.balanceBefore}</td>
+        <td style="padding:8px;border:1px solid #ddd;">₹${t.balanceAfter}</td>
+        </tr>
+        `;
+    });
+
+    html += "</tbody></table>";
+
+    resultBox.style.display="block";
+    resultBox.innerHTML = html;
+}
+else{
+
+resultBox.innerHTML=data;
+
+if(data.toLowerCase().includes("error") || data.toLowerCase().includes("invalid")){
+
+resultBox.style.background="#ffe6e6";
+
+resultBox.style.color="#b30000";
+
+}
+else{
+
+resultBox.style.background="#e6ffe6";
+
+resultBox.style.color="#006600";
+
+}
+
+}
+
+})
+.catch(error=>{
+
+let resultBox=document.getElementById("resultBox");
+
+resultBox.style.display="block";
+
+resultBox.style.background="#ffe6e6";
+
+resultBox.style.color="#b30000";
+
+resultBox.innerHTML="Server error occurred.";
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
