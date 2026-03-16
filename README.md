@@ -90,27 +90,8 @@ This project demonstrates how banking operations such as **account creation, dep
 Create the database and tables in MySQL.
 
 ``` sql
-CREATE DATABASE bankdb;
-USE bankdb;
-
-CREATE TABLE accounts(
-account\_id BIGINT PRIMARY KEY,
-name VARCHAR(100),
-aadhaar VARCHAR(12),
-phone VARCHAR(10),
-address VARCHAR(255),
-balance DOUBLE
-);
-
-CREATE TABLE transactions(
-id INT AUTO\_INCREMENT PRIMARY KEY,
-account\_id BIGINT,
-description VARCHAR(255),
-before\_balance DOUBLE,
-after\_balance DOUBLE,
-time VARCHAR(50)
-);
-```
+CREATE DATABASE bankdb1;
+USE bankdb1;
 
 \---
 
