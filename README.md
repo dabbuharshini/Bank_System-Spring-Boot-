@@ -127,21 +127,27 @@ or run the main class:
 
 Creates a new bank account with automatic **11-digit account number generation**.
 
+<img width="1147" height="887" alt="image" src="https://github.com/user-attachments/assets/43b6d279-d471-4940-bfdb-958f3690bf42" />
+
 ### 2\. Deposit
 
 Allows depositing money into an existing account.
+<img width="680" height="603" alt="image" src="https://github.com/user-attachments/assets/f0abc750-fe5c-46b8-939f-494478bcb18c" />
 
 ### 3\. Withdraw
 
 Allows withdrawing money while maintaining a **minimum balance of ₹1000**.
+<img width="688" height="607" alt="image" src="https://github.com/user-attachments/assets/4671ef11-90dc-490e-8f4c-9f39a47edce2" />
 
 ### 4\. Balance Check
 
 Displays the current balance of the account.
+<img width="643" height="540" alt="image" src="https://github.com/user-attachments/assets/3a738503-3085-4c70-a7f4-82ffbd981ccc" />
 
 ### 5\. Transaction History
 
 Displays all deposit and withdrawal transactions with timestamps.
+<img width="693" height="712" alt="image" src="https://github.com/user-attachments/assets/91967b46-cb18-412c-aec5-21506d5f5d09" />
 
 \---
 
