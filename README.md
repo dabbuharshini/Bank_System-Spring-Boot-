@@ -93,6 +93,8 @@ Create the database and tables in MySQL.
 CREATE DATABASE bankdb1;
 USE bankdb1;
 
+
+
 \---
 
 ## How to Run the Project
