@@ -92,7 +92,7 @@ Create the database and tables in MySQL.
 ``` sql
 CREATE DATABASE bankdb1;
 USE bankdb1;
-
+```
 
 
 \---
